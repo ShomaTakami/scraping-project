@@ -7,17 +7,18 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import WebDriverException, SessionNotCreatedException
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys  # ここでKeysを追加
+from selenium.common.exceptions import NoSuchElementException
+
 # ブラウザのドライバーを選択（例: Chrome）
 driver = webdriver.Chrome()
-
 # ログイン情報
 login_form = {
-    # 'utf-8': '✓',
-    # 'authenticity_token': 'token',
+    # 'utf-8':'✓',
+    # 'authenticity_token':'token',
     'user[login_code]': 'takatoshi.ayabe@dreamexchange.onmicrosoft.com',
     'user[password]': 'ABC123!!!',
     # 'commit': 'ログイン'
@@ -26,24 +27,21 @@ login_form = {
 # ログイン
 login_url = 'https://base.next-engine.org/users/sign_in'
 driver.get(login_url)
+# ログインフォームに情報を入力
+for field, value in login_form.items():
+    element = driver.find_element(By.NAME, field)  # 修正点: By.NAME を使用
+    element.send_keys(value)
+# ログインボタンをクリック
+commit_button = driver.find_element(By.CSS_SELECTOR, '.btn.btn-primary.btn-large.span12')  # CSSセレクタを使用
+commit_button.click()
+# ブラウザが開かれた後、一定の時間待機
+time.sleep(10)  # ここで適切な待機時間（秒）を指定
+# ブラウザを閉じる
+driver.quit()
 
-# # ログインフォームに情報を入力
-# for field, value in login_form.items():
-#     element = driver.find_element_by_name(field)
-#     element.send_keys(value)
-
-# # ログインボタンをクリック
-# driver.find_element_by_name('commit').click()
 # # セッションの作成
 # session = requests.Session()
-# # ログイン情報
-# login_form = {
-#     'utf-8':'✓',
-#     'authenticity_token':'token',
-#     'user[login_code]': 'takatoshi.ayabe@dreamexchange.onmicrosoft.com',
-#     'user[password]': 'ABC123!!!',
-#     'commit': 'ログイン'
-# }
+
 # # ログイン
 # login_url = 'https://base.next-engine.org/users/sign_in'
 # def get_authenticity_token(session, login_url):
