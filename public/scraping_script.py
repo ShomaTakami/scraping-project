@@ -16,17 +16,13 @@ from datetime import datetime
 
 # ヘッドレスモードを有効にする
 options = Options()
-# options.add_argument('--headless')
+options.add_argument('--headless')
 # ダウンロードフォルダの指定
+# TODO 本番環境時に修正
 downloaddir = '/home/shoma/keymetron/scraping-project/database/next-csv'
 options.add_experimental_option("prefs", {"download.default_directory": downloaddir})
 
-# options.add_experimental_option("prefs", {
-#     "download.default_directory":os.getcwd()+"\\download1", #ダウンロード先のフォルダ
-#     "plugins.always_open_pdf_externally": True              #PDFをブラウザのビューワーで開かせない
-# })
-# ブラウザのドライバーを選択（例: Chrome）
-# driver = webdriver.Chrome()
+# ブラウザのドライバーを選択（Chrome）
 driver = webdriver.Chrome(options = options)
 # ログイン情報
 login_form = {
