@@ -12,12 +12,12 @@ class ScrapingController extends Controller
         return view('scraping.index');
     }
 
+    // スクレイピングでcsvをダウンロードする関数
     public function scrapeData()
     {
         $pythonScriptPath = public_path('scraping_script.py');
         $command = "python3 {$pythonScriptPath} 2>&1"; // 2>&1 は標準エラー出力も含めて取得するための記述
         exec($command, $output, $exitCode);
-
         if ($exitCode == 0) {
             // スクリプト実行成功時の処理
             // ダウンロードフォルダの指定
@@ -34,8 +34,12 @@ class ScrapingController extends Controller
             // ファイル名変更
             rename("{$downloadDir}/{$latestFile}", $newFilePath);
 
+            //TODO
+            // １．データベースにぶち込む　２．ぶち込んだらcsvファイル削除
+
             return response()->json(['message' => 'Success']);
         } else {
+            // スクリプト実行失敗時時の処理
             return response()->json(['message' => 'False']);
         }
     }
