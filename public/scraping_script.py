@@ -18,7 +18,7 @@ from datetime import datetime
 options = Options()
 options.add_argument('--headless')
 # ダウンロードフォルダの指定
-# TODO 本番環境時に修正
+# TODO 本番環境時に修正 /var/www/html/storage/app/uploads
 downloaddir = '/home/shoma/keymetron/scraping-project/database/next-csv'
 options.add_experimental_option("prefs", {"download.default_directory": downloaddir})
 
@@ -65,9 +65,10 @@ search_button.click()
 # 日付ピッカーの要素を取得
 datepicker_from = driver.find_element(By.ID, 'sea_jyuchu_search_field03_from')
 datepicker_to = driver.find_element(By.ID, 'sea_jyuchu_search_field03_to')
+# TODO 前日を設定　一日分を取得
 # 期間を指定したい日付を設定
-start_date = '2023/01/08'
-end_date = '2023/01/09'
+start_date = '2023/11/13'
+end_date = '2023/11/20'
 # 日付ピッカーに日付を入力
 datepicker_from.clear()
 datepicker_from.send_keys(start_date)
